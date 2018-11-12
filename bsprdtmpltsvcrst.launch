@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/bsprdtmpltsvcrst/src/main/java/com/delta/cru/Application.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.buildship.core.classpathprovider"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.delta.cru.Application"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="bsprdtmpltsvcrst"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dconfig.location=/Users/dilipupadhyay/git/bsprdtmpltsvcrst/cnfg/&#13;&#10;&#13;&#10;-Dlog.location=src/main/resources&#13;&#10;&#13;&#10;-DCRUDB_PASSWORD=password123#"/>
+</launchConfiguration>

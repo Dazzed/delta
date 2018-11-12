@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.delta.cru.dao.mapper.EmpSPMapperIfc">
+
+	<insert id="insPhnBySP" parameterType="com.delta.cru.vo.EmpPhVo"
+		statementType="CALLABLE">
+		{call SP_BASE_INSERT_EMPL_PH(
+		#{emplId,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{emplPhNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{effDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{phTypCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{expDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{emplPhRnkNum,jdbcType=NUMERIC,mode=IN},
+		#{intlPhNbInd,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{crtnUsrId,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{crtnGdttmDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{lstUpdtUsrId,jdbcType=NUMERIC,mode=IN},
+		#{lstUpdtGdttmDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{arptTmZnCtryCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{arptTmZnDvCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{phExtsNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{phPsnlIdntNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{crewPhSvcPvdrCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{ctryPhNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{smsEnbdInd,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{rtnCd,javaType=String,jdbcType=NUMERIC,mode=OUT},
+		#{rtnMsg,javaType=String,jdbcType=VARCHAR,mode=OUT}
+		)}
+	</insert>
+
+	<update id="updtPhnBySP" parameterType="com.delta.cru.vo.EmpPhVo"
+		statementType="CALLABLE">
+		{call SP_BASE_UPDATE_EMPL_PH(
+		#{emplId,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{emplPhNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{emplNewPhNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{effDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{newEffDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{phTypCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{newPhTypCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{ctryPhNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{phExtsNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{phPsnlIdntNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{expDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{emplPhRnkNum,jdbcType=NUMERIC,mode=IN},
+		#{crewPhSvcPvdrCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{intlPhNbInd,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{arptTmZnCtryCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{arptTmZnDvCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{crtnUsrId,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{crtnGdttmDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{lstUpdtUsrId,jdbcType=NUMERIC,mode=IN},
+		#{lstUpdtGdttmDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{lstUpdtSqNum,javaType=long,jdbcType=VARCHAR,mode=IN},
+		#{smsEnbdInd,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{rtnCd,javaType=String,jdbcType=NUMERIC,mode=OUT},
+		#{rtnMsg,javaType=String,jdbcType=VARCHAR,mode=OUT}
+		)}
+	</update>
+
+	<delete id="delPhnBySP" parameterType="com.delta.cru.vo.EmpPhVo"
+		statementType="CALLABLE">
+		{call SP_BASE_DELETE_EMPL_PH(
+		#{emplId,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{emplPhNum,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{effDate,javaType=String,jdbcType=DATE,mode=IN},
+		#{phTypCode,javaType=String,jdbcType=VARCHAR,mode=IN},
+		#{rtnCd,javaType=String,jdbcType=NUMERIC,mode=OUT},
+		#{rtnMsg,javaType=String,jdbcType=VARCHAR,mode=OUT}
+		)}
+	</delete>
+
+	<select id="getSysDate" resultType="java.sql.Date">
+		select sysdate from DUAL
+	</select>
+
+	<select id="getSeq" resultType="java.lang.Long">
+		SELECT LST_UPDT_SQ_NB.NEXTVAL as
+		seqNum FROM DUAL
+	</select>
+
+</mapper>
+   

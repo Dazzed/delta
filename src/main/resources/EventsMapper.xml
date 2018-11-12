@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.delta.cru.dao.mapper.EventMapperIfc">
+	
+	
+	<resultMap id="getEventUserMap" type="com.delta.cru.vo.EventUserVo">
+		<id column="USER_ID" property="user_id" />
+		<result column="first_name" property="first_name" />
+		<result column="last_name" property="last_name" />
+		<result column="email" property="email" />
+		<result column="phone" property="phone" />
+	</resultMap>
+	
+	<select id="getEventUser" parameterType="java.lang.String" resultMap="getEventUserMap">
+		SELECT E.USER_ID,E.first_name,E.last_name,E.email,E.phone FROM EVENT_USER E where
+		E.USER_ID=#{id}
+	</select>
+	
+	<resultMap id="getEventMap" type="com.delta.cru.vo.EventVo">
+		<id column="EVENT_ID" property="event_id" />
+		<result column="NAME" property="name" />
+		<result column="SPONSOR" property="sponsor" />
+		<result column="EVENT_DATE" property="event_date" />
+		<result column="ROOMS" property="rooms" />
+		<result column="GUESTS" property="guests" />
+		<result column="IS_FLEXIBLE" property="is_flexible" />
+		<result column="IS_REPEATING" property="is_repeating" />
+	</resultMap>
+	
+	<select id="getEvent" parameterType="java.lang.String" resultMap="getEventMap">
+		SELECT E.EVENT_ID,E.NAME,E.SPONSOR,E.EVENT_DATE,E.ROOMS,E.GUESTS,E.IS_FLEXIBLE,E.IS_REPEATING FROM EVENT E where
+		E.EVENT_ID=#{id}
+	</select>
+	
+	<resultMap id="getEventLocationMap" type="com.delta.cru.vo.EventLocationVo">
+		<id column="LOCATION_ID" property="location_id" />
+		<result column="EVENT_LOCATION" property="event_location" />
+		<result column="PREFERRED_HOTEL" property="preferred_hotel" />
+		<result column="EVENT_BUDGET" property="event_budget" />
+		<result column="LAST_YEAR_HOTEL" property="last_year_hotel" />
+	</resultMap>
+	
+	<select id="getEventLocation" parameterType="java.lang.String" resultMap="getEventLocationMap">
+		SELECT E.LOCATION_ID,E.EVENT_LOCATION,E.PREFERRED_HOTEL,E.EVENT_BUDGET,E.LAST_YEAR_HOTEL FROM EVENT_LOCATION E where
+		E.LOCATION_ID=#{id}
+	</select>
+	
+	<resultMap id="getEventNeedsMap" type="com.delta.cru.vo.EventNeedsVo">
+		<id column="NEEDS_ID" property="needs_id" />
+		<result column="CATERING" property="catering" />
+		<result column="PARKING" property="parking" />
+		<result column="CONFERENCE_ROOMS" property="conference_rooms" />
+		<result column="AV_EQUIPMENT" property="av_equipment" />
+		<result column="EARLY_CHECKIN" property="early_checkin" />
+		<result column="LATE_CHECKOUT" property="late_checkout" />
+		<result column="TRANSPORTATION" property="transportation" />
+		<result column="TYPE" property="type" />
+		<result column="COMMENTS" property="comments" />
+	</resultMap>
+	
+	<select id="getEventNeeds" parameterType="java.lang.String" resultMap="getEventNeedsMap">
+		SELECT E.NEEDS_ID,E.CATERING,E.PARKING,E.CONFERENCE_ROOMS,E.AV_EQUIPMENT,E.EARLY_CHECKIN,E.LATE_CHECKOUT,E.TRANSPORTATION,E.TYPE,E.COMMENTS FROM EVENT_NEEDS E where
+		E.NEEDS_ID=#{id}
+	</select>
+		
+	<resultMap id="getEventUserLocationNeedsMap" type="com.delta.cru.vo.EventUserLocationNeedsVo">
+		<id column="EVENT_DETAILS_ID" property="event_details_id" />
+		<result column="EVENT_ID" property="event_id" />
+		<result column="USER_ID" property="user_id" />
+		<result column="LOCATION_ID" property="location_id" />
+		<result column="NEEDS_ID" property="needs_id" />
+	</resultMap>
+	
+	<select id="getEventUserLocationNeeds" parameterType="java.lang.String" resultMap="getEventUserLocationNeedsMap">
+		SELECT E.EVENT_DETAILS_ID,E.EVENT_ID,E.USER_ID,E.LOCATION_ID,E.NEEDS_ID FROM EVENT_DETAILS E where
+		E.EVENT_DETAILS_ID=#{id}
+	</select>
+	
+	<insert id="insEventUserLocationNeeds"
+		parameterType="com.delta.cru.vo.EventUserLocationNeedsVo">
+		INSERT INTO EVENT_DETAILS
+		(EVENT_DETAILS_ID,
+		USER_ID,
+		EVENT_ID,
+		LOCATION_ID,
+		NEEDS_ID)
+		VALUES
+		(#{event_details_id},
+		#{user_id, jdbcType=CHAR},
+		#{event_id, jdbcType=CHAR},
+		#{location_id,jdbcType=CHAR},
+		#{needs_id, jdbcType=CHAR}
+		)
+	</insert>
+	
+	<insert id="insEventUser"
+		parameterType="com.delta.cru.vo.EventUserVo">
+		INSERT INTO EVENT_USER
+		(user_id,
+		first_name,
+		last_name,
+		email,
+		phone)
+		VALUES
+		(#{user_id},
+		#{first_name, jdbcType=CHAR},
+		#{last_name,jdbcType=CHAR},
+		#{email, jdbcType=CHAR},
+		#{phone, jdbcType=CHAR}
+		)
+	</insert>
+
+
+	<insert id="insEvent" parameterType="com.delta.cru.vo.EventVo">
+		INSERT INTO EVENT
+		(EVENT_ID,
+		NAME,
+		SPONSOR,
+		EVENT_DATE,
+		ROOMS,
+		GUESTS,
+		IS_FLEXIBLE,
+		IS_REPEATING)
+		VALUES
+		(#{event_id},
+		#{name, jdbcType=CHAR},
+		#{sponsor, jdbcType=CHAR},
+		#{event_date, jdbcType=CHAR},
+		#{rooms,jdbcType=CHAR},
+		#{guests, jdbcType=CHAR},
+		#{is_flexible, jdbcType=CHAR},
+		#{is_repeating, jdbcType=CHAR}
+		)
+	</insert>
+
+	<insert id="insEventLocation"
+		parameterType="com.delta.cru.vo.EventLocationVo">
+		INSERT INTO EVENT_LOCATION
+		(LOCATION_ID,
+		EVENT_LOCATION,
+		PREFERRED_HOTEL,
+		EVENT_BUDGET,
+		LAST_YEAR_HOTEL)
+		VALUES
+		(#{location_id},
+		#{event_location, jdbcType=CHAR},
+		#{preferred_hotel, jdbcType=CHAR},
+		#{event_budget, jdbcType=CHAR},
+		#{last_year_hotel, jdbcType=CHAR}
+		)
+	</insert>
+
+	<insert id="insEventNeeds"
+		parameterType="com.delta.cru.vo.EventNeedsVo">
+		INSERT INTO EVENT_NEEDS
+		(NEEDS_ID,
+		CATERING,
+		PARKING,
+		CONFERENCE_ROOMS,
+		AV_EQUIPMENT,
+		EARLY_CHECKIN,
+		LATE_CHECKOUT,
+		TRANSPORTATION,
+		TYPE,
+		COMMENTS)
+		VALUES
+		(#{needs_id},
+		#{catering, jdbcType=CHAR},
+		#{parking, jdbcType=CHAR},
+		#{conference_rooms, jdbcType=CHAR},
+		#{av_equipment,	jdbcType=CHAR},
+		#{early_checkin, jdbcType=CHAR},
+		#{late_checkout, jdbcType=CHAR},
+		#{transportation, jdbcType=CHAR},
+		#{type,	jdbcType=CHAR},
+		#{comments,	jdbcType=CHAR}
+		)
+	</insert>
+
+	<select id="getSeq" resultType="java.lang.String">
+		SELECT EVENT_SQ.NEXTVAL as
+		seqNum FROM DUAL
+	</select>
+
+</mapper>
+   

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.delta.cru.dao.mapper.EmpMapperIfc">
+	<resultMap id="fndEmpRsltMap" type="com.delta.cru.vo.EmpNmeVo">
+		<id column="EMPL_ID" property="emplId" />
+		<result column="EMPL_DSPLY_NM" property="emplName" />
+	</resultMap>
+	<resultMap id="fndEmpPhnsRsltMap" type="com.delta.cru.vo.EmpPhVo">
+		<id column="EMPL_ID" property="emplId" />
+		<result column="EMPL_PH_NB" property="emplPhNum" />
+		<result column="PH_TYP_CD" property="phTypCode" />
+		<result column="INTL_PH_NB_IND" property="intlPhNbInd" />
+		<result column="CRTN_USR_ID" property="crtnUsrId" />
+		<result column="LST_UPDT_USR_ID" property="lstUpdtUsrId" />
+		<result column="LST_UPDT_SQ_NB" property="lstUpdtSqNum" />
+		<result column="ARPT_TM_ZN_CTRY_CD" property="arptTmZnCtryCode" />
+		<result column="ARPT_TM_ZN_DV_CD" property="arptTmZnDvCode" />
+		<result column="CTRY_PH_NB" property="ctryPhNum" />
+		<result column="SMS_ENBD_IND" property="smsEnbdInd" />
+		<result column="EMPL_PH_RNK_NB" property="emplPhRnkNum" />
+		<result column="PH_EXTS_NB" property="phExtsNum" />
+		<result column="PH_PSNL_IDNT_NB" property="phPsnlIdntNum" />
+		<result column="CREW_PH_SVC_PVDR_CD" property="crewPhSvcPvdrCode" />
+		<result column="EFF_DT" property="effDate" />
+		<result column="EXP_DT" property="expDate" />
+		<result column="CRTN_GDTTM" property="crtnGdttmDate" />
+		<result column="LST_UPDT_GDTTM" property="lstUpdtGdttmDate" />
+	</resultMap>
+
+	<select id="fndEmp" parameterType="java.lang.String" resultMap="fndEmpRsltMap">
+		SELECT E.EMPL_ID,EMPL_DSPLY_NM FROM EMPLOYEE E where
+		E.EMPL_ID=#{emplId}
+	</select>
+
+	<select id="fndEmpPhns" resultMap="fndEmpPhnsRsltMap"
+		parameterType="java.lang.String">
+		SELECT EP.EMPL_ID,
+		EP.EMPL_PH_NB,
+		EP.EFF_DT,
+		EP.PH_TYP_CD,
+		EP.EXP_DT,
+		EP.EMPL_PH_RNK_NB,
+		EP.INTL_PH_NB_IND,
+		EP.CRTN_USR_ID,
+		EP.CRTN_GDTTM,
+		EP.LST_UPDT_USR_ID,
+		EP.LST_UPDT_GDTTM,
+		EP.LST_UPDT_SQ_NB,
+		EP.ARPT_TM_ZN_CTRY_CD,
+		EP.ARPT_TM_ZN_DV_CD,
+		EP.PH_EXTS_NB,
+		EP.PH_PSNL_IDNT_NB,
+		EP.CREW_PH_SVC_PVDR_CD,
+		EP.CTRY_PH_NB,
+		EP.SMS_ENBD_IND
+		FROM EMPL_PH EP
+		WHERE ROWNUM <![CDATA[ < 100 ]]>
+		and EP.EMPL_ID=#{emplId}
+		ORDER BY EP.EFF_DT
+		DESC,EP.PH_TYP_CD,EP.EMPL_PH_NB
+	</select>
+
+	<insert id="insPhn" parameterType="com.delta.cru.vo.EmpPhVo" useGeneratedKeys="true"
+		keyProperty="seqNum">
+		<selectKey keyProperty="seqNum" order="BEFORE" resultType="java.lang.Long">
+			SELECT LST_UPDT_SQ_NB.NEXTVAL AS seqNum FROM dual
+		</selectKey>
+		INSERT INTO EMPL_PH
+		(EMPL_ID,
+		EMPL_PH_NB,
+		EFF_DT,
+		PH_TYP_CD,
+		EXP_DT,
+		EMPL_PH_RNK_NB,
+		INTL_PH_NB_IND,
+		CRTN_USR_ID,
+		CRTN_GDTTM,
+		LST_UPDT_USR_ID,
+		LST_UPDT_GDTTM,
+		LST_UPDT_SQ_NB,
+		ARPT_TM_ZN_CTRY_CD,
+		ARPT_TM_ZN_DV_CD,
+		PH_EXTS_NB,
+		PH_PSNL_IDNT_NB,
+		CREW_PH_SVC_PVDR_CD,
+		CTRY_PH_NB,
+		SMS_ENBD_IND)
+		VALUES
+		(#{emplId, jdbcType=CHAR},
+		#{emplPhNum,
+		jdbcType=CHAR},
+		#{effDate, jdbcType=DATE},
+		#{phTypCode, jdbcType=CHAR},
+		<choose>
+			<when test="expDate != null">
+				#{expDate, jdbcType=DATE},
+			</when>
+			<otherwise>
+				'31-Dec-2099',
+			</otherwise>
+		</choose>
+		#{emplPhRnkNum, jdbcType=NUMERIC},
+		<choose>
+			<when test="intlPhNbInd != null">
+				#{intlPhNbInd, jdbcType=CHAR},
+			</when>
+			<otherwise>
+				'N',
+			</otherwise>
+		</choose>
+		#{crtnUsrId, jdbcType=CHAR},
+		<if test="crtnGdttmDate != null">
+			#{crtnGdttmDate, jdbcType=DATE},
+		</if>
+		#{lstUpdtUsrId, jdbcType=CHAR},
+		<if test="lstUpdtGdttmDate != null">
+			#{lstUpdtGdttmDate, jdbcType=DATE},
+		</if>
+		#{seqNum},
+		#{arptTmZnCtryCode, jdbcType=CHAR},
+		#{arptTmZnDvCode,
+		jdbcType=CHAR},
+		#{phExtsNum, jdbcType=CHAR},
+		#{phPsnlIdntNum,
+		jdbcType=CHAR},
+		#{crewPhSvcPvdrCode, jdbcType=CHAR},
+		#{ctryPhNum,
+		jdbcType=CHAR},
+		#{smsEnbdInd, jdbcType=CHAR}
+		)
+	</insert>
+
+	<update id="updtPhn" parameterType="com.delta.cru.vo.EmpPhVo">
+		UPDATE EMPL_PH
+
+		<set>
+			<if test="emplNewPhNum != null">EMPL_PH_NB =#{emplNewPhNum},</if>
+			<if test="emplNewPhNum ==null">EMPL_PH_NB=#{emplPhNum},</if>
+			<if test="newEffDate != null">EFF_DT=#{newEffDate},</if>
+			<if test="newEffDate == null">EFF_DT=#{effDate},</if>
+			<if test="newPhTypCode != null">PH_TYP_CD=#{newPhTypCode},</if>
+			<if test="newPhTypCode == null">PH_TYP_CD=#{phTypCode},</if>
+			<if test="ctryPhNum != null">CTRY_PH_NB=#{ctryPhNum},</if>
+			<if test="phExtsNum != null">PH_EXTS_NB=#{phExtsNum},</if>
+			<if test="phPsnlIdntNum != null">PH_PSNL_IDNT_NB=#{phPsnlIdntNum},</if>
+			<if test="expDate ==null">EXP_DT='31-Dec-2099',</if>
+			<if test="expDate != null">EXP_DT=#{expDate},</if>
+			<if test="emplPhRnkNum != null">EMPL_PH_RNK_NB=#{emplPhRnkNum},</if>
+			<if test="crewPhSvcPvdrCode != null">CREW_PH_SVC_PVDR_CD=#{crewPhSvcPvdrCode},</if>
+			<if test="intlPhNbInd == null">INTL_PH_NB_IND='N',</if>
+			<if test="intlPhNbInd != null">INTL_PH_NB_IND=#{intlPhNbInd},</if>
+			<if test="arptTmZnCtryCode != null">ARPT_TM_ZN_CTRY_CD=#{arptTmZnCtryCode},</if>
+			<if test="arptTmZnDvCode != null">ARPT_TM_ZN_DV_CD=#{arptTmZnDvCode},</if>
+			<if test="crtnUsrId != null">CRTN_USR_ID=#{crtnUsrId},</if>
+			<if test="crtnGdttmDate != null">CRTN_GDTTM=#{crtnGdttmDate},</if>
+			<if test="lstUpdtUsrId != null">LST_UPDT_USR_ID=#{lstUpdtUsrId},</if>
+			<if test="lstUpdtGdttmDate != null">LST_UPDT_GDTTM=#{lstUpdtGdttmDate},</if>
+			<if test="lstUpdtSqNum != null">LST_UPDT_SQ_NB=#{lstUpdtSqNum},</if>
+			<if test="smsEnbdInd != null">SMS_ENBD_IND=#{smsEnbdInd}</if>
+		</set>
+		WHERE EMPL_ID=#{emplId}
+		AND EMPL_PH_NB=#{emplPhNum}
+		AND
+		PH_TYP_CD=#{phTypCode}
+		AND EFF_DT=#{effDate}
+	</update>
+
+	<delete id="delPhn" parameterType="com.delta.cru.vo.EmpPhVo">
+		DELETE FROM EMPL_PH EP
+		where
+		EP.EMPL_ID=#{emplId} AND
+		EP.EMPL_PH_NB=#{emplPhNum} AND
+		EP.EFF_DT=#{effDate} AND
+		EP.PH_TYP_CD=#{phTypCode}
+	</delete>
+
+	<select id="getSysDate" resultType="java.sql.Date">
+		select sysdate from DUAL
+	</select>
+
+	<select id="getSeq" resultType="java.lang.Long">
+		SELECT LST_UPDT_SQ_NB.NEXTVAL as
+		seqNum FROM DUAL
+	</select>
+
+</mapper>
+   

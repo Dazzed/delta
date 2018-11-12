@@ -1,0 +1,45 @@
+# THIS WILL CONTAIN ONLY LOG CONFIGURATION PROPERTIES
+# DO NOT ADD ANY OTHER CONFIG PROPERTIES.REACH OUT TO CrewBase TEAM FOR ANY QUERIES
+---
+project:
+  name: BsPrdTmpltSvcRst
+  version: 1
+  description: This is Spring Boot REST service template
+  artifact: com.delta.cru
+info:
+  build:
+    artifact: com.delta.cru
+    name: BsPrdTmpltSvcRst
+    description: This is Spring Boot REST service template
+    version: 1
+spring:
+  application:
+    name: BsPrdTmpltSvcRst
+server:
+  error:
+    whitelabel:
+      enabled: true
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+---
+spring:
+  profiles: test
+config:
+  location: cnfg/
+pswd: adaba5
+logging.file: src/main/resources/BsPrdTmpltSvcRst.log
+logging:
+  level:
+    com.delta.cru: INFO
+  pattern:
+    console:
+    file: "{'timestamp': '%d{ISO8601,UTC}','level':'%5.5p','transactionId':'%X{transactionId}','userId':'%X{userId}','env' :'%X{env}','src_host':'%X{src_host}','appId':'%X{appId}','className':'%X{className}','methodName':'%X{methodName}','messageId':'%X{messageId}','message':'%m'}%n"
+  file: 
+    max-history: 10
+    max-size: 10MB
+  header:
+    enabled: false 
+logMqUrl: http://cruwd2902lja.delta.com:17513/cnsrLogCtxt/flightCrew/employee/v1/crew
